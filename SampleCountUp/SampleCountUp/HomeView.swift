@@ -8,6 +8,14 @@
 import SwiftUI
 
 struct HomeView: View {
+    
+    @State var start = false
+    @State var to: CGFloat = 0
+    @State var count = 0
+    
+    //1秒ごとに発動するTimerクラスのpublishメソッド
+    @State var time = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
+    
     var body: some View {
         ZStack {
             Color.black.opacity(0.06).edgesIgnoringSafeArea(.all)
@@ -25,7 +33,7 @@ struct HomeView: View {
                     .rotationEffect((.init(degrees: -90)))
                 
                 VStack{
-                    Text("15")
+                    Text("\(self.count)")
                         .font(.system(size: 65))
                         .fontWeight(.bold)
                     Text("of 15")
@@ -34,6 +42,10 @@ struct HomeView: View {
                 }
             }
         }
+        //指定した時間（1秒）ごとに発動するtimerをトリガーにしてクロージャ内のコードを実行
+        .onReceive(self.time, perform: { _ in
+            print("Hello")
+        })
     }
 }
 
