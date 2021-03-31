@@ -45,6 +45,7 @@ struct HomeView: View {
                 
                 HStack(spacing: 20) {
                     Button(action: {
+                        self.start.toggle()
                         //スタート・ストップ処理
                     }) {
                         HStack(spacing: 20) {
@@ -81,7 +82,17 @@ struct HomeView: View {
         }
         //指定した時間（1秒）ごとに発動するtimerをトリガーにしてクロージャ内のコードを実行
         .onReceive(self.time, perform: { _ in
-            print("Hello")
+            
+            if self.start {
+                
+                if self.count != 15 {
+                    self.count += 1
+                    print("Hello")
+                } else { //15になったらリセットする
+                    self.to = 0
+                    self.start.toggle()
+                }
+            }
         })
     }
 }
