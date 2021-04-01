@@ -28,7 +28,7 @@ struct HomeView: View {
                         .frame(width: UIScreen.main.bounds.width / 1.2, height: UIScreen.main.bounds.width / 1.2)
                     
                     Circle()
-                        .trim(from: 0, to: 0.5)
+                        .trim(from: 0, to: self.to)
                         .stroke(Color.red, style: StrokeStyle(lineWidth: 35, lineCap: .round))
                         .frame(width: UIScreen.main.bounds.width / 1.2, height: UIScreen.main.bounds.width / 1.2)
                         .rotationEffect((.init(degrees: -90)))
@@ -88,8 +88,13 @@ struct HomeView: View {
                 if self.count != 15 {
                     self.count += 1
                     print("Hello")
+                    withAnimation(.default) {
+                        self.to = CGFloat(self.count) / 15
+                    }
                 } else { //15になったらリセットする
-                    self.to = 0
+                    withAnimation(.default) {
+                        self.to = 0
+                    }
                     self.start.toggle()
                 }
             }
