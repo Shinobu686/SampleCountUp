@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import UserNotifications
 
 struct HomeView: View {
     
@@ -84,6 +85,11 @@ struct HomeView: View {
                 }.padding(.top, 55)
             }
         }
+        
+        .onAppear(perform: { //プッシュ通知の許可を求めるダイアログ表示
+            UNUserNotificationCenter.current().requestAuthorization(options: [.badge,.sound,.alert]) { (_, _) in
+            }
+        })
         //指定した時間（1秒）ごとに発動するtimerをトリガーにしてクロージャ内のコードを実行
         .onReceive(self.time, perform: { _ in
             
