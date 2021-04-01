@@ -45,8 +45,8 @@ struct HomeView: View {
                 
                 HStack(spacing: 20) {
                     Button(action: {
-                        self.start.toggle()
                         //スタート・ストップ処理
+                        self.start.toggle()
                     }) {
                         HStack(spacing: 20) {
                             Image(systemName: self.start ? "pause.fill" : "play.fill")
@@ -63,6 +63,10 @@ struct HomeView: View {
                     
                     Button(action: {
                         //リスタート処理
+                        self.count = 0
+                        withAnimation(.default) {
+                            self.to = 0
+                        }
                     }) {
                         HStack(spacing: 20) {
                             Image(systemName: "arrow.clockwise")
@@ -91,10 +95,7 @@ struct HomeView: View {
                     withAnimation(.default) {
                         self.to = CGFloat(self.count) / 15
                     }
-                } else { //15になったらリセットする
-                    withAnimation(.default) {
-                        self.to = 0
-                    }
+                } else { //15になったらストップ
                     self.start.toggle()
                 }
             }
