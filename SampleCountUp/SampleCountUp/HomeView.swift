@@ -91,7 +91,7 @@ struct HomeView: View {
             }
         })
         //指定した時間（1秒）ごとに発動するtimerをトリガーにしてクロージャ内のコードを実行
-        .onReceive(self.time, perform: { _ in
+        .onReceive(self.time) { _ in
             
             if self.start {
                 
@@ -103,9 +103,29 @@ struct HomeView: View {
                     }
                 } else { //15になったらストップ
                     self.start.toggle()
+                    self.makeNotification()
                 }
             }
-        })
+        }
+    }
+    
+    //通知関係のメソッド
+    func makeNotification() {
+        
+        //通知タイミングを指定
+        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
+        
+        //通知コンテンツの作成
+        let content = UNMutableNotificationContent()
+        content.title = "メッセージ"
+        content.body = "タイマーが終了しました！"
+        
+        //通知タイミングと通知内容をまとめてリクエストを作成
+        let request = UNNotificationRequest(identifier: "notification001", content: content, trigger: trigger)
+        
+        //リクエスト通りに通知を実行させる
+        UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
+        
     }
 }
 
